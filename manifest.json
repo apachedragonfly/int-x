@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "int-x",
+  "description": "Reveal how diverse your timeline really is!",
+  "version": "0.1.0",
+  "permissions": [
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://twitter.com/*",
+    "*://x.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inject.js"
+      ],
+      "matches": [
+        "https://twitter.com/*",
+        "https://x.com/*"
+      ]
+    }
+  ]
+}
+
