@@ -8,7 +8,7 @@ const injectMainWorldScript = () => {
     const parent = document.head || document.documentElement;
     parent.appendChild(script);
   } catch (error) {
-    console.error("X-Provenance injection failed", error);
+    console.error("int-x injection failed", error);
   }
 };
 
@@ -91,7 +91,7 @@ const persistGeoEntry = (entry) => {
   try {
     chrome.storage?.local?.set({ [`geo:${entry.userId}`]: entry });
   } catch (error) {
-    console.warn("X-Provenance persistence failed", error);
+    console.warn("int-x persistence failed", error);
   }
 };
 
@@ -99,7 +99,7 @@ const restorePersistedGeoEntries = () => {
   if (!chrome.storage?.local) return;
   chrome.storage.local.get(null, (items) => {
     if (chrome.runtime?.lastError) {
-      console.warn("X-Provenance restore failed", chrome.runtime.lastError);
+      console.warn("int-x restore failed", chrome.runtime.lastError);
       return;
     }
 
@@ -265,11 +265,6 @@ const createFlagChip = (entry) => {
   span.dataset.isVpn = entry.isVPN ? "true" : "false";
   span.dataset.regionName = entry.regionName || "";
 
-  console.log("X-Provenance: Creating flag chip", {
-    isVPN: entry.isVPN,
-    countryCode: entry.countryCode,
-    regionName: entry.regionName
-  });
 
   if (entry.isVPN && entry.countryCode) {
     const flagEmoji = countryCodeToFlagEmoji(entry.countryCode);
@@ -279,20 +274,16 @@ const createFlagChip = (entry) => {
     flagSpan.textContent = flagEmoji;
     span.appendChild(flagSpan);
     span.appendChild(createVPNBadge());
-    console.log("X-Provenance: Added VPN flag + badge", flagEmoji);
   } else if (entry.isVPN) {
     span.appendChild(createVPNBadge());
-    console.log("X-Provenance: Added VPN badge only");
   } else if (entry.regionName && !entry.countryCode) {
     span.textContent = `🌐 ${entry.regionName}`;
-    console.log("X-Provenance: Added region", entry.regionName);
   } else {
     const flagEmoji = countryCodeToFlagEmoji(entry.countryCode);
     const flagSpan = document.createElement("span");
     flagSpan.className = "x-provenance-flag-emoji";
     flagSpan.textContent = flagEmoji;
     span.appendChild(flagSpan);
-    console.log("X-Provenance: Added flag", flagEmoji);
   }
 
   const details = [];
@@ -370,7 +361,6 @@ const resolveUsernameNode = (node) => {
 
 const renderFlags = () => {
   const nodes = document.querySelectorAll(USERNAME_SELECTOR);
-  console.log(`X-Provenance: Rendering flags for ${nodes.length} username nodes`);
   nodes.forEach((node) => {
     const targetNode = resolveUsernameNode(node);
     if (!targetNode) return;
@@ -384,11 +374,6 @@ const renderFlags = () => {
       return;
     }
 
-    console.log("X-Provenance: Found entry for handle", handle, {
-      isVPN: entry.isVPN,
-      countryCode: entry.countryCode,
-      regionName: entry.regionName
-    });
 
     if (
       existing &&
@@ -403,7 +388,6 @@ const renderFlags = () => {
 
     const chip = createFlagChip(entry);
     targetNode.appendChild(chip);
-    console.log("X-Provenance: Appended chip to DOM", chip);
   });
 };
 
@@ -475,19 +459,6 @@ const cacheGeoPayload = (payload) => {
 
   const locationLabel = entry.countryCode || entry.regionName || "Unknown";
   const aboutProfile = entry.meta?.aboutProfile || {};
-  console.log("X-Provenance Cached Entry", {
-    userId,
-    handle: entry.handle,
-    countryCode: entry.countryCode,
-    regionName: entry.regionName,
-    isVPN: entry.isVPN,
-    location_accurate: aboutProfile.location_accurate,
-    account_based_in: aboutProfile.account_based_in,
-    source: aboutProfile.source,
-    affiliate_username: aboutProfile.affiliate_username,
-    confidence: entry.confidence,
-    signalType: entry.signalType
-  });
   scheduleRender();
 };
 

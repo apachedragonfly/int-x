@@ -9,7 +9,7 @@
 
     const originalFetch = window.fetch;
     if (typeof originalFetch !== "function") {
-      console.warn("X-Provenance: window.fetch unavailable");
+      console.warn("int-x: window.fetch unavailable");
       return;
     }
 
@@ -641,42 +641,6 @@
         ? false  // If location is accurate, it's NOT a VPN
         : (hasExplicitProxy || hasVpnKeyword || hasVpnPattern || isVPNFromLocation);
 
-      // Debug logging - always show for all accounts
-      console.log("X-Provenance VPN Detection", {
-          userId: entry.userId,
-          isVPN,
-          locationAccurate,
-          locationInaccurate,
-          hasExplicitProxy,
-          hasVpnKeyword,
-          hasVpnPattern,
-          isVPNFromLocation,
-          isRegion,
-          explicitIndicators: {
-            is_proxy: aboutProfile.is_proxy,
-            isProxy: aboutProfile.isProxy,
-            uses_proxy: aboutProfile.uses_proxy,
-            usesProxy: aboutProfile.usesProxy,
-            proxy: aboutProfile.proxy,
-            proxy_enabled: aboutProfile.proxy_enabled
-          },
-          textSources: textSources.filter(Boolean),
-          source,
-          affiliateUsername,
-          location_accurate: aboutProfile.location_accurate,
-          account_based_in: aboutProfile.account_based_in,
-          determination: locationAccurate 
-            ? "NOT VPN (location_accurate: true)" 
-            : (hasExplicitProxy 
-              ? "VPN (explicit proxy flag)" 
-              : (hasVpnKeyword 
-                ? "VPN (VPN keyword found)" 
-                : (hasVpnPattern 
-                  ? "VPN (VPN pattern in source/affiliate)" 
-                  : (isVPNFromLocation 
-                    ? "VPN (location_accurate: false, not a region)" 
-                    : "NOT VPN"))))
-        });
 
       return isVPN;
     };
@@ -788,7 +752,7 @@
           dispatchGeoPayloads(payloads);
         }
       } catch (error) {
-        console.warn("X-Provenance scan failed", error);
+        console.warn("int-x scan failed", error);
       }
     };
 
@@ -814,7 +778,7 @@
         const data = await cloned.json();
         await processResponseData(data, url, request);
       } catch (error) {
-        console.warn("X-Provenance scan failed", error);
+        console.warn("int-x scan failed", error);
       }
     };
 
@@ -828,7 +792,7 @@
         
         processGraphQLResponse(response, url, request);
       } catch (error) {
-        console.warn("X-Provenance fetch hook error", error);
+        console.warn("int-x fetch hook error", error);
       }
       return response;
     };
@@ -877,9 +841,8 @@
       return xhr;
     };
 
-    console.info("X-Provenance Injector Loaded");
   } catch (error) {
-    console.error("X-Provenance injector initialization failed", error);
+    console.error("int-x injector initialization failed", error);
   }
 })();
 
