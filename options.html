@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>int-x Options</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .description {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    .section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .section-description {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    button {
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #dc2626;
+    }
+    button:active {
+      background: #b91c1c;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+    }
+    .status.success {
+      background: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+    .status.error {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>int-x Options</h1>
+  <p class="description">Manage your extension settings and data.</p>
+
+  <div class="section">
+    <div class="section-title">Clear All Flags</div>
+    <div class="section-description">
+      Remove all stored location flags for all users. This will clear both the stored data and remove flags from the current page.
+    </div>
+    <button id="clearFlagsBtn">Clear All Flags</button>
+    <div id="status" class="status"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
+

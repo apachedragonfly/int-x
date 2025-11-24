@@ -36,6 +36,21 @@ Hover over any flag badge to see:
 - "Account based in [Country Name]" (e.g., "Account based in Australia")
 - VPN/proxy status if applicable
 
+## Managing Flags
+
+### Clear All Flags
+
+You can clear all stored flags for all users at any time:
+
+1. **Right-click the extension icon** → Select "Options"
+2. **Or go to** `chrome://extensions` → Find "int-x" → Click "Options"
+3. **Click "Clear All Flags"** button
+
+This will:
+- Remove all stored flag data from your browser
+- Clear flags from all open X.com/Twitter tabs
+- Allow you to start fresh if needed
+
 ## Notes
 
 - Flags only appear for accounts where X.com has geo data available

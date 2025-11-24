@@ -418,6 +418,35 @@ const ensureObserver = () => {
   start();
 };
 
+const clearAllFlags = () => {
+  // Clear in-memory maps
+  userGeoMap.clear();
+  handleToUserIdMap.clear();
+
+  // Clear all geo entries from chrome.storage
+  if (chrome.storage?.local) {
+    chrome.storage.local.get(null, (items) => {
+      if (chrome.runtime?.lastError) {
+        console.warn("int-x clear flags failed", chrome.runtime.lastError);
+        return;
+      }
+
+      const keysToRemove = Object.keys(items || {}).filter(key => key.startsWith("geo:"));
+      if (keysToRemove.length > 0) {
+        chrome.storage.local.remove(keysToRemove, () => {
+          if (chrome.runtime?.lastError) {
+            console.warn("int-x clear flags failed", chrome.runtime.lastError);
+          }
+        });
+      }
+    });
+  }
+
+  // Remove all flag chips from the DOM
+  const flagChips = document.querySelectorAll(`.${FLAG_CLASS}`);
+  flagChips.forEach(chip => chip.remove());
+};
+
 const cacheGeoPayload = (payload) => {
   const {
     userId,
@@ -465,9 +494,23 @@ const cacheGeoPayload = (payload) => {
 window.addEventListener("message", (event) => {
   if (event.source !== window) return;
   const { type, payload } = event.data || {};
-  if (type !== "X_GEO_FOUND") return;
-  cacheGeoPayload(payload);
+  if (type === "X_GEO_FOUND") {
+    cacheGeoPayload(payload);
+  } else if (type === "X_CLEAR_ALL_FLAGS") {
+    clearAllFlags();
+  }
 });
+
+// Listen for messages from extension (e.g., options page)
+if (chrome.runtime?.onMessage) {
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "X_CLEAR_ALL_FLAGS") {
+      clearAllFlags();
+      sendResponse({ success: true });
+    }
+    return true;
+  });
+}
 
 injectFlagStyles();
 restorePersistedGeoEntries();
