@@ -16,9 +16,12 @@ Reveal how diverse your timeline really is! A Chrome Extension that displays cou
 
 1. **Browse X.com** as you normally would
 2. **Hover over the "Joined" date** on any profile - this triggers geo data extraction
-3. **Flags will automatically appear** next to usernames throughout the site
+3. **Flags will automatically appear** next to usernames throughout the site and will remain on the timeline, profiles, etc. until the extension is removed or turned off.
 
 **Note**: You don't need to click into the About page. Simply hovering over the "Joined" date is enough to activate the extension for that account.
+
+Unfortunately we cannot parse country identity automatically while browsing the timeline as this would trigger way too many events and probably lead to a nice little ban.
+
 
 ## What the Icons Mean
 
